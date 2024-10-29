@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <div class="container d-flex align-items-center justify-content-center vh-100">
+        <div class="card shadow p-4 rounded" style="width: 400px;">
+            <h1 class="h3 mb-4 text-center">Registrujte se</h1>
+
+            {% if form_errors(registrationForm) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(registrationForm) }}
+                </div>
+            {% endif %}
+
+            {{ form_start(registrationForm) }}
+            <div class="mb-3">
+                {{ form_row(registrationForm.email, {
+                    label: 'Email',
+                    attr: {'class': 'form-control', 'style': 'background-color: rgba(255, 255, 255, 0.8); color: #333;'}
+                }) }}
+            </div>
+            <div class="mb-3">
+                {{ form_row(registrationForm.plainPassword, {
+                    label: 'Heslo',
+                    attr: {'class': 'form-control', 'style': 'background-color: rgba(255, 255, 255, 0.8); color: #333; '}
+                }) }}
+            </div>
+
+
+            <button type="submit" class="btn btn-primary w-100">Registrovat se</button>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #007bff, #6f42c1);
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .alert {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+{% endblock %}

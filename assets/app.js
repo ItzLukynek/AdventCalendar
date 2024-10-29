@@ -1,0 +1,2 @@
+// Import jQuery
+import "bootstrap"

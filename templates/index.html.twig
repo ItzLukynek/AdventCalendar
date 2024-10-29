@@ -1,0 +1,266 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Advent Calendar{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+
+        body {
+            background: linear-gradient(to bottom, #12232E, #203647);
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            background-image: url('{{ asset("uploads/images/bg/" ~ settings.bgImageUrl) }}') !important;
+            background-size: cover;
+            background-repeat: no-repeat;
+            position: relative;
+            font-family: "DynaPuff", system-ui;
+            font-optical-sizing: auto;
+            font-weight: 700;
+            font-style: normal;
+            font-variation-settings:
+                    "wdth" 100;
+            background-attachment: fixed;
+        }
+        body::before{
+            content: "";
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.45);
+            position: absolute;
+            z-index: -1;
+            padding-top: 50px;
+        }
+        body {
+
+        }
+        .container-fluid h1 {
+            font-size: 3rem;
+            letter-spacing: 2px;
+            color: #ffcc00;
+            text-shadow: 2px 2px 5px #000;
+        }
+        .box {
+            cursor: pointer;
+            background-color: #ffcc00 !important;
+            color: #12232E !important;
+            font-size: 2rem !important;
+            font-weight: bold !important;
+            transition: transform 0.3s, background-color 0.6s !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+            border: none !important;
+            margin-bottom: 20px !important;
+            background-image: url("{{ asset("build/images/gift.png") }}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: top center;
+            width: 100%;
+            height: 100%;
+
+        }
+        .box:hover {
+            background-color: #ffffff !important;
+            color: #fff !important;
+            transform: scale(1.125) !important;
+        }
+        @keyframes box-drop-in {
+            0% {
+                transform: translateY(-100px) scale(0.9);
+                opacity: 0;
+            }
+            60% {
+                transform: translateY(20px) scale(1.05);
+                opacity: 1;
+            }
+            80% {
+                transform: translateY(-10px) scale(1);
+            }
+            100% {
+                transform: translateY(0) scale(1);
+            }
+        }
+        .animate-box{
+            animation: box-drop-in 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .box h2 {
+            color: white !important;
+            font-weight: 700!important;
+            margin: 0;
+            padding: 10px 0;
+            font-size: 65px !important;
+        }
+        .modal-content {
+            border-radius: 15px;
+            background-color: #fff;
+            color: #203647;
+        }
+        .modal-body{
+            padding: 0px !important;
+        }
+        .modal-body p{
+            font-size: 24px;
+            margin: 24px 15px;
+        }
+        .modal-header, .modal-footer {
+            border: none;
+        }
+        .modal-header {
+            background-color: #ffcc00;
+            color: #12232E;
+            font-weight: bold;
+            border-radius: 15px 15px 0 0;
+        }
+        .modal-body img {
+            margin-bottom: 15px;
+        }
+
+        .btn-secondary:hover, .btn-primary:hover {
+            opacity: 0.8;
+        }
+        .activated{
+            background-image: none;
+
+        }
+        .activated h2{
+            transition: 0.9s;
+        }
+        #loginForm{
+            padding: 30px 30px;
+        }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid d-flex justify-content-center p-5">
+        <h1 class="fw-bold">{{settings.title}}</h1>
+    </div>
+    <div class="container">
+        <div class="row text-center">
+            {% for box in boxes %}
+                <div class="col-lg-2 col-md-3 col-sm-4 mb-4 d-flex justify-content-center">
+                    <div class="box p-4 d-flex align-items-end justify-content-center bg-light border rounded shadow" style="background-image: url('{{ box.bgImageUrl is not null ? 'uploads/images/boxbg/' ~ box.bgImageUrl : asset('build/images/gift.png') }}')"
+                         data-bs-toggle="modal"
+                            {#setup if auth and user#}
+                            {% if settings.auth %}
+                                {% if app.user %}
+                                    data-bs-target="#modal-{{ box.id }}" onclick="addBox({{ box.id }})"
+                                {% else %}
+                                    data-bs-target="#loginModal"
+                                {% endif %}
+                            {% else %}
+                                {% if app.user %}
+                                    data-bs-target="#modal-{{ box.id }}" onclick="addBox({{ box.id }})"
+                                {% else %}
+                                    data-bs-target="#modal-{{ box.id }}"
+                                {% endif %}
+                            {% endif %}
+                         style="cursor: pointer;">
+                        {#show opened boxes#}
+                        {% if box.id in activatedBoxIds %}
+                            <h2 class="checkmark">✔️</h2>
+                        {% else %}
+                            <h2 class="box-{{ box.id }}">{{ box.number }}</h2>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal modal-lg fade" id="modal-{{ box.id }}" tabindex="-1" aria-labelledby="modalLabel-{{ box.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalLabel-{{ box.id }}">Den {{ box.number}}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                {% if box.imageUrl %}
+                                    <img src="uploads/images/{{ box.imageUrl }}" alt="Day {{ box.id }}" class="img-fluid">
+                                {% endif %}
+                                <p>{{ box.description }}</p>
+                                <a href="{{ box.buttonLink }}">
+                                    <button type="button" class="p-3 mb-4 btn btn-secondary">{{ box.buttonText }}</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {#login modal window#}
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <h5 class="modal-title " id="loginModalLabel">Přihlašte se</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <!-- CSRF token field -->
+                        <input type="hidden" id="csrf_token" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                        <div class="form-group mt-3">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+
+                            <button type="button " class="btn btn-primary mt-4" id="loginSubmit">Přihlásit</button>
+                            <a href="{{ path('app_register') }}" class="btn btn-secondary mt-4 " role="button" id="registerSubmit">Registrovat se</a>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('login') }}
+    <script>
+        //function for activating a box for a user
+        async function addBox(boxId) {
+            try {
+                const response = await fetch(`/api/activate-box/${boxId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    let errorMessage;
+
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        const errorData = await response.json();
+                        errorMessage = errorData.error || 'Failed to activate the box.';
+                    } else {
+                        const errorText = await response.text();
+                        errorMessage = `Unexpected response format: ${errorText}`;
+                    }
+
+                    throw new Error(errorMessage);
+                }
+
+                const data = await response.json();
+
+                console.log(data.message);
+                console.log('Activated Box IDs:', data.activatedBoxIds);
+                document.querySelector(`.box-${boxId}`).innerHTML = "✔️";
+
+            } catch (error) {
+                console.error('Error:', error.message);
+                alert(`Error: ${error.message}`);
+            }
+        }
+    </script>
+
+{% endblock %}
+
