@@ -36,6 +36,7 @@ class SettingsCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield BooleanField::new('auth')->renderAsSwitch()->setLabel("Ověřit přihlášení");
+        yield BooleanField::new('shuffle')->renderAsSwitch()->setLabel("Zamíchat dny");
         yield TextField::new('title')->setLabel("Nadpis");
         yield ImageField::new('bg_image_url')
             ->setLabel('Pozadí stránky')

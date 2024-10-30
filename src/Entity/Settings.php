@@ -25,6 +25,9 @@ class Settings
     #[ORM\Column(nullable: true)]
     private ?bool $main_settings = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $shuffle = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class Settings
     public function setMainSettings(?bool $main_settings): static
     {
         $this->main_settings = $main_settings;
+
+        return $this;
+    }
+
+    public function isShuffle(): ?bool
+    {
+        return $this->shuffle;
+    }
+
+    public function setShuffle(?bool $shuffle): static
+    {
+        $this->shuffle = $shuffle;
 
         return $this;
     }
