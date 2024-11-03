@@ -39,10 +39,8 @@ async function loginUser() {
         } catch (jsonError) {
             // JSON parse failed, log the HTML response
             console.error('Failed to parse JSON:', responseText);
-            alert('An unexpected error occurred. Please try again later.');
         }
     } catch (error) {
         console.error('Network error:', error);
-        alert('An error occurred. Please check your network and try again.');
     }
 }

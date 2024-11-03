@@ -28,6 +28,10 @@ class Settings
     #[ORM\Column(nullable: true)]
     private ?bool $shuffle = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $title_color = null;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,4 +96,18 @@ class Settings
 
         return $this;
     }
+
+    public function getTitleColor(): ?string
+    {
+        return $this->title_color;
+    }
+
+    public function setTitleColor(?string $title_color): static
+    {
+        $this->title_color = $title_color;
+
+        return $this;
+    }
+
+
 }

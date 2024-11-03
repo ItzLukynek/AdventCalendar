@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="ee-test.ebrana.cz" id="51405e5d-8ac6-4ae8-9e9e-3412aac5e934" port="22" nameFormat="DESCRIPTIVE" username="lukas-korba" useOpenSSHConfig="true" />
+    </configs>
+  </component>
+</project>

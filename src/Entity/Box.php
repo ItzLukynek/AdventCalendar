@@ -31,6 +31,12 @@ class Box
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bg_image_url = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $bg_color = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $color = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +110,30 @@ class Box
     public function setBgImageUrl(?string $bg_image_url): static
     {
         $this->bg_image_url = $bg_image_url;
+
+        return $this;
+    }
+
+    public function getBgColor(): ?string
+    {
+        return $this->bg_color;
+    }
+
+    public function setBgColor(?string $bg_color): static
+    {
+        $this->bg_color = $bg_color;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): static
+    {
+        $this->color = $color;
 
         return $this;
     }

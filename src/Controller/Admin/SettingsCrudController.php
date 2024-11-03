@@ -6,6 +6,7 @@ use App\Entity\Settings;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ColorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -43,6 +44,8 @@ class SettingsCrudController extends AbstractCrudController
             ->setUploadDir('public/uploads/images/bg')
             ->setBasePath('uploads/images/bg')
             ->setRequired(false);
+        yield ColorField::new('title_color')
+            ->setLabel('Barva nadpisu');
     }
 
     public function configureFilters(Filters $filters): Filters
