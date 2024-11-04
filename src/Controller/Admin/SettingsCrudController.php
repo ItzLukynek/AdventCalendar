@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ColorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -48,6 +49,7 @@ class SettingsCrudController extends AbstractCrudController
             ->setRequired(false);
         yield ColorField::new('title_color')
             ->setLabel('Barva nadpisu');
+        yield IntegerField::new("title_size")->setLabel("Velikost nadpisu (px)")->onlyOnForms();
 
     }
 

@@ -35,7 +35,7 @@
 
         }
         .container-fluid h1 {
-            font-size: 3rem;
+            font-size: {{ settings.titleSize is not null ? settings.titleSize ~ 'px' : '50px' }};
             letter-spacing: 2px;
             color: #ffcc00;
             text-shadow: 2px 2px 5px #000;

@@ -44,7 +44,7 @@ class BoxCrudController extends AbstractCrudController
         $goToStripe = Action::new('Resetovat aktivované boxy uživatelů')
             ->linkToCrudAction('resetBoxes')
             ->createAsGlobalAction()
-            ->setCssClass('btn btn-danger btn-lg')
+            ->setCssClass('btn btn-danger btn-lg p-2')
             ->setIcon('fa fa-trash')
         ;
         return $actions
@@ -83,14 +83,12 @@ class BoxCrudController extends AbstractCrudController
 
     public function resetBoxes(): Response
     {
-        // Fetch all users
         $users = $this->entityManager->getRepository(User::class)->findAll();
 
         foreach ($users as $user) {
-            $user->resetBoxes(); // Reset boxes to an empty array
+            $user->resetBoxes();
         }
 
-        // Persist the changes
         $this->entityManager->flush();
 
         $this->addFlash('success', 'Uživatelům byly resetovány aktivované boxy');

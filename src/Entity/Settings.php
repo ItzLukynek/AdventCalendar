@@ -37,6 +37,9 @@ class Settings
     #[ORM\Column(nullable: true)]
     private ?bool $allow_previous_days = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $title_size = null;
+
 
     public function getId(): ?int
     {
@@ -135,6 +138,18 @@ class Settings
     public function setAllowPreviousDays(?bool $allow_previous_days): static
     {
         $this->allow_previous_days = $allow_previous_days;
+
+        return $this;
+    }
+
+    public function getTitleSize(): ?int
+    {
+        return $this->title_size;
+    }
+
+    public function setTitleSize(?int $title_size): static
+    {
+        $this->title_size = $title_size;
 
         return $this;
     }
