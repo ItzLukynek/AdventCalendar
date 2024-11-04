@@ -58,9 +58,19 @@
 
         }
         .box:hover {
-            background-color: #ffffff !important;
-            color: #fff !important;
-            transform: scale(1.125) !important;
+            color: #fff ;
+            transform: scale(1.125) ;
+        }
+        .box.blocked:hover{
+            cursor: not-allowed;
+            animation: shake 0.5s forwards 2;
+        }
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
         }
         @keyframes box-drop-in {
             0% {
@@ -89,6 +99,11 @@
             padding: 10px 0;
             font-size: 65px !important;
         }
+
+
+
+
+
         .modal-content {
             border-radius: 15px;
             background-color: #fff;
@@ -138,62 +153,61 @@
     <div class="container">
         <div class="row text-center">
             {% for box in boxes %}
-                <div class="col-lg-2 col-md-3 col-sm-4 mb-4 d-flex justify-content-center">
-                    <div class="box p-4 d-flex align-items-end justify-content-center bg-light border rounded shadow"
-                         style="
-                         {% if box.bgColor %}background-color: {{ box.bgColor }} !important;{% endif %}
-                                 background-image: url(
-                                 '{% if box.bgImageUrl is not null %}uploads/images/boxbg/{{ box.bgImageUrl }}{% elseif settings.showGift  %}{{ asset('build/images/gift.png') }}{% endif %}'
-                                 );"
-                         data-bs-toggle="modal"
+            <div class="col-lg-2 col-md-3 col-sm-4 mb-4 d-flex justify-content-center">
+                <div class="box {% if box.status == "blocked" %}blocked{% endif %}
+                     p-4 d-flex align-items-end justify-content-center bg-light border rounded shadow"
+                style="
+                {% if box.bgColor %}background-color: {{ box.bgColor }} !important;{% endif %}
+                background-image: url(
+                '{% if box.bgImageUrl is not null %}uploads/images/boxbg/{{ box.bgImageUrl }}{% elseif settings.showGift %}{{ asset('build/images/gift.png') }}{% endif %}'
+                );"
+                data-bs-toggle="modal"
+                {% if settings.auth %}
+                    {% if app.user %}
+                        data-bs-target="#modal-{{ box.id }}" onclick="addBox({{ box.id }})"
+                    {% else %}
+                        data-bs-target="#loginModal"
+                    {% endif %}
+                {% else %}
+                    {% if app.user %}
+                        data-bs-target="#modal-{{ box.id }}" onclick="addBox({{ box.id }})"
+                    {% else %}
+                        data-bs-target="#modal-{{ box.id }}"
+                    {% endif %}
+                {% endif %}
+                >
 
-                            {# Set up modal targets depending on auth and user status #}
-                            {% if settings.auth %}
-                                {% if app.user %}
-                                    data-bs-target="#modal-{{ box.id }}" onclick="addBox({{ box.id }})"
-                                {% else %}
-                                    data-bs-target="#loginModal"
-                                {% endif %}
-                            {% else %}
-                                {% if app.user %}
-                                    data-bs-target="#modal-{{ box.id }}" onclick="addBox({{ box.id }})"
-                                {% else %}
-                                    data-bs-target="#modal-{{ box.id }}"
-                                {% endif %}
-                            {% endif %}
-                    >
-
-                        {% if box.id in activatedBoxIds %}
-                            <h2 class="checkmark">✔️</h2>
-                        {% else %}
-                            <h2 class="box-{{ box.id }}">{{ box.number }}</h2>
-                        {% endif %}
-                    </div>
-
-                </div>
-
-                <!-- Modal -->
-                <div class="modal modal-lg fade" id="modal-{{ box.id }}" tabindex="-1" aria-labelledby="modalLabel-{{ box.id }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalLabel-{{ box.id }}">Den {{ box.number}}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                {% if box.imageUrl %}
-                                    <img src="uploads/images/{{ box.imageUrl }}" alt="Day {{ box.id }}" class="img-fluid">
-                                {% endif %}
-                                <p>{{ box.description }}</p>
-                                <a href="{{ box.buttonLink }}">
-                                    <button type="button" class="p-3 mb-4 btn btn-secondary">{{ box.buttonText }}</button>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+                {% if box.id in activatedBoxIds %}
+                    <h2 class="checkmark">✔️</h2>
+                {% else %}
+                    <h2 class="box-{{ box.id }}">{{ box.number }}</h2>
+                {% endif %}
+            </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal modal-lg fade" id="modal-{{ box.id }}" tabindex="-1" aria-labelledby="modalLabel-{{ box.id }}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel-{{ box.id }}">Den {{ box.number }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% if box.imageUrl %}
+                            <img src="uploads/images/{{ box.imageUrl }}" alt="Day {{ box.id }}" class="img-fluid">
+                        {% endif %}
+                        <p>{{ box.description }}</p>
+                        <a href="{{ box.buttonLink }}">
+                            <button type="button" class="p-3 mb-4 btn btn-secondary">{{ box.buttonText }}</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
     </div>
     {#login modal window#}
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">

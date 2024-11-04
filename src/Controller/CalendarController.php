@@ -1,8 +1,8 @@
 <?php
+// src/Controller/CalendarController.php
 namespace App\Controller;
 
-use App\Entity\Box;
-use App\Repository\BoxRepository;
+use App\Service\BoxService;
 use App\Repository\SettingsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,16 +11,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class CalendarController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index(BoxRepository $boxRepository, SettingsRepository $settingsRepository): Response
+    public function index(BoxService $boxService, SettingsRepository $settingsRepository): Response
     {
-        $boxes = $boxRepository->findAll();
+        // get status of the day
+        $boxes = $boxService->getBoxesWithStatus();
 
         $user = $this->getUser();
         $activatedBoxIds = $user ? $user->getBoxes() : [];
 
         $settings = $settingsRepository->findOneBy(['main_settings' => true]);
 
-        //shuffle day if set to true
         if ($settings && $settings->isShuffle()) {
             shuffle($boxes);
         }
