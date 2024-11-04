@@ -41,20 +41,20 @@ class BoxCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        // Here we define our custom action for resetting boxes
-        $resetBoxesAction = Action::new('resetBoxes', 'Reset All Boxes')
-            ->setIcon('fa fa-trash') // Set the icon for the button
-            ->setCssClass('btn btn-danger') // CSS class for styling
-            ->linkToCrudAction('resetBoxes'); // Link to the reset action
-
-        // Add the reset button to the toolbar of the index page
+        $goToStripe = Action::new('Resetovat aktivované boxy uživatelů')
+            ->linkToCrudAction('resetBoxes')
+            ->createAsGlobalAction()
+            ->setCssClass('btn btn-danger btn-lg')
+            ->setIcon('fa fa-trash')
+        ;
         return $actions
-            ->add(Crud::PAGE_INDEX, $resetBoxesAction) // Add to the index page toolbar
-            ->disable(Action::NEW) // Disable the new button if you don't want it
+            ->disable(Action::NEW)
+            ->disable(Action::DELETE)
             ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
                 return $action->setLabel('Edit')->displayAsLink();
             })
-            ->add(Crud::PAGE_INDEX, Action::DETAIL);
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->add(Crud::PAGE_INDEX, $goToStripe);
     }
 
     public function configureFields(string $pageName): iterable
@@ -93,9 +93,8 @@ class BoxCrudController extends AbstractCrudController
         // Persist the changes
         $this->entityManager->flush();
 
-        $this->addFlash('success', 'All boxes have been reset for all users.');
+        $this->addFlash('success', 'Uživatelům byly resetovány aktivované boxy');
 
-        // Redirect back to the index page or any other page
-        return $this->redirectToRoute('easyadmin', ['entity' => 'Box']);
+        return $this->redirectToRoute('admin', ['entity' => 'Box']);
     }
 }
