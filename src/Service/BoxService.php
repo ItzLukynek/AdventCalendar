@@ -20,7 +20,7 @@ class BoxService
      *
      * @return Box[] Array of boxes with a status (today, expired, blocked)
      */
-    public function getBoxesWithStatus(): array
+    public function getBoxesWithStatus(bool $allowPreviousDays): array
     {
         $boxes = $this->boxRepository->findAll();
         $todayDay = (int)(new DateTime())->format('j');
@@ -30,7 +30,7 @@ class BoxService
 
             if ($boxNumber === $todayDay) {
                 $box->status = 'today';
-            } elseif ($boxNumber < $todayDay) {
+            } elseif ($allowPreviousDays && $boxNumber < $todayDay) {
                 $box->status = 'expired';
             } else {
                 $box->status = 'blocked';

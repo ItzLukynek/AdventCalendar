@@ -164,13 +164,13 @@
                 data-bs-toggle="modal"
                 {% if settings.auth %}
                     {% if app.user %}
-                        data-bs-target="#modal-{{ box.id }}" onclick="addBox({{ box.id }})"
+                        data-bs-target="#modal-{{ box.id }}" {% if box.status != "blocked" %} onclick="addBox({{ box.id }})" {% endif %}
                     {% else %}
                         data-bs-target="#loginModal"
                     {% endif %}
                 {% else %}
                     {% if app.user %}
-                        data-bs-target="#modal-{{ box.id }}" onclick="addBox({{ box.id }})"
+                        data-bs-target="#modal-{{ box.id }}" {% if box.status != "blocked" %} onclick="addBox({{ box.id }})" {% endif %}
                     {% else %}
                         data-bs-target="#modal-{{ box.id }}"
                     {% endif %}
@@ -186,25 +186,27 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal modal-lg fade" id="modal-{{ box.id }}" tabindex="-1" aria-labelledby="modalLabel-{{ box.id }}" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalLabel-{{ box.id }}">Den {{ box.number }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        {% if box.imageUrl %}
-                            <img src="uploads/images/{{ box.imageUrl }}" alt="Day {{ box.id }}" class="img-fluid">
-                        {% endif %}
-                        <p>{{ box.description }}</p>
-                        <a href="{{ box.buttonLink }}">
-                            <button type="button" class="p-3 mb-4 btn btn-secondary">{{ box.buttonText }}</button>
-                        </a>
+        {% if box.status != "blocked" %}
+            <div class="modal modal-lg fade" id="modal-{{ box.id }}" tabindex="-1" aria-labelledby="modalLabel-{{ box.id }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel-{{ box.id }}">Den {{ box.number }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {% if box.imageUrl %}
+                                <img src="uploads/images/{{ box.imageUrl }}" alt="Day {{ box.id }}" class="img-fluid">
+                            {% endif %}
+                            <p>{{ box.description }}</p>
+                            <a href="{{ box.buttonLink }}">
+                                <button type="button" class="p-3 mb-4 btn btn-secondary">{{ box.buttonText }}</button>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
         {% endfor %}
 
     </div>
@@ -277,7 +279,6 @@
 
             } catch (error) {
                 console.error('Error:', error.message);
-                alert(`Error: ${error.message}`);
             }
         }
     </script>

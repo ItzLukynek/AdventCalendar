@@ -34,6 +34,9 @@ class Settings
     #[ORM\Column(nullable: true)]
     private ?bool $showGift = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $allow_previous_days = null;
+
 
     public function getId(): ?int
     {
@@ -120,6 +123,18 @@ class Settings
     public function setShowGift(?bool $showGift): static
     {
         $this->showGift = $showGift;
+
+        return $this;
+    }
+
+    public function isAllowPreviousDays(): ?bool
+    {
+        return $this->allow_previous_days;
+    }
+
+    public function setAllowPreviousDays(?bool $allow_previous_days): static
+    {
+        $this->allow_previous_days = $allow_previous_days;
 
         return $this;
     }

@@ -13,13 +13,14 @@ class CalendarController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(BoxService $boxService, SettingsRepository $settingsRepository): Response
     {
-        // get status of the day
-        $boxes = $boxService->getBoxesWithStatus();
+        $settings = $settingsRepository->findOneBy(['main_settings' => true]);
+
+        $allowPreviousDays = $settings ? $settings->isAllowPreviousDays() : false;
+
+        $boxes = $boxService->getBoxesWithStatus($allowPreviousDays);
 
         $user = $this->getUser();
         $activatedBoxIds = $user ? $user->getBoxes() : [];
-
-        $settings = $settingsRepository->findOneBy(['main_settings' => true]);
 
         if ($settings && $settings->isShuffle()) {
             shuffle($boxes);
