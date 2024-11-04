@@ -150,6 +150,7 @@
     <div class="container-fluid d-flex justify-content-center p-5">
         <h1 {% if settings.titleColor%}style="color: {{ settings.titleColor }}"{% endif%} class="fw-bold">{{settings.title}}</h1>
     </div>
+
     <div class="container">
         <div class="row text-center">
             {% for box in boxes %}
@@ -220,7 +221,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+
                     <form id="loginForm">
+                        <div class="alert alert-danger" id="error-alert" style="display:none;"></div>
+                        <div class="alert alert-success" id="success-alert" style="display:none;"></div>
                         <div class="form-group">
                             <label for="loginEmail">Email</label>
                             <input type="email" class="form-control" id="loginEmail" required>
@@ -244,44 +248,8 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('login') }}
-    <script>
-        //function for activating a box for a user
-        async function addBox(boxId) {
-            try {
-                const response = await fetch(`/api/activate-box/${boxId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    let errorMessage;
-
-                    const contentType = response.headers.get('content-type');
-                    if (contentType && contentType.includes('application/json')) {
-                        const errorData = await response.json();
-                        errorMessage = errorData.error || 'Failed to activate the box.';
-                    } else {
-                        const errorText = await response.text();
-                        errorMessage = `Unexpected response format: ${errorText}`;
-                    }
-
-                    throw new Error(errorMessage);
-                }
-
-                const data = await response.json();
-
-                console.log(data.message);
-                console.log('Activated Box IDs:', data.activatedBoxIds);
-                document.querySelector(`.box-${boxId}`).innerHTML = "✔️";
-
-            } catch (error) {
-                console.error('Error:', error.message);
-            }
-        }
-    </script>
+    {{ encore_entry_script_tags('login') }} {#funcionality for login#}
+    {{ encore_entry_script_tags('box') }} {#funcionality for activating the box#}
 
 {% endblock %}
 

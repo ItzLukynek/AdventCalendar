@@ -1,15 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         await loginUser();
     });
 });
-// log in the user
+
 async function loginUser() {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
-    const csrfToken = document.getElementById('csrf_token').value;
 
     try {
         const response = await fetch('/api/login', {
@@ -17,30 +15,25 @@ async function loginUser() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-                _csrf_token: csrfToken,
-            }),
+            body: JSON.stringify({ email, password }),
         });
 
-        const responseText = await response.text();
+        const data = await response.json();
 
-        try {
-            const data = JSON.parse(responseText);
-
-            if (response.ok) {
-                console.log('Login successful!', data);
-                window.location.reload();
-            } else {
-                console.error('Login failed:', data.error || data);
-                alert('Login failed: ' + (data.error || 'Unknown error'));
-            }
-        } catch (jsonError) {
-            // JSON parse failed, log the HTML response
-            console.error('Failed to parse JSON:', responseText);
+        if (response.ok) {
+            console.log('Login successful!', data);
+            document.getElementById('error-alert').style.display = 'none';
+            document.getElementById('success-alert').innerText = data.message;
+            document.getElementById('success-alert').style.display = 'block';
+            window.location.reload();
+        } else {
+            console.error('Login failed:', data.error);
+            document.getElementById('error-alert').innerText = data.error;
+            document.getElementById('error-alert').style.display = 'block';
         }
     } catch (error) {
         console.error('Network error:', error);
+        document.getElementById('error-alert').innerText = 'Network error: ' + error.message;
+        document.getElementById('error-alert').style.display = 'block';
     }
 }

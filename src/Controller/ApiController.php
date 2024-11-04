@@ -53,7 +53,7 @@ class ApiController
 
         // Check password validity
         if (!$user || !$this->userPasswordHasher->isPasswordValid($user, $password)) {
-            return new JsonResponse(['error' => 'Invalid credentials'], JsonResponse::HTTP_UNAUTHORIZED);
+            return new JsonResponse(['error' => 'Neplatné údaje'], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
@@ -63,7 +63,7 @@ class ApiController
         $this->eventDispatcher->dispatch($loginEvent);
 
         return new JsonResponse([
-            'message' => 'Login successful',
+            'message' => 'Úspěšné přihlášení',
             'user' => [
                 'id' => $user->getId(),
                 'username' => $user->getUsername(),
@@ -75,6 +75,11 @@ class ApiController
     #[Route('/activate-box/{boxId}', name: 'activate_box', methods: ['POST'])]
     public function activateBox(Request $request, int $boxId, SettingsRepository $settingsRepository): JsonResponse
     {
+        // Check if XMLHttpRequest
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(['error' => 'Invalid request type'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
         $token = $this->tokenStorage->getToken();
 
         $settings = $settingsRepository->findOneBy(['main_settings' => true]);
@@ -98,4 +103,5 @@ class ApiController
 
         return new JsonResponse(['message' => 'Box activated successfully', 'activatedBoxIds' => $user->getBoxes()]);
     }
+
 }

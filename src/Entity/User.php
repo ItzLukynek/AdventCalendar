@@ -112,6 +112,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function resetBoxes(): static
+    {
+        $this->boxes = []; // Reset the boxes to an empty array
+        return $this;
+    }
+
     /**
      * Remove a box ID from the user's activated boxes.
      *

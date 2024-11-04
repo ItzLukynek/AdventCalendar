@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: BoxRepository::class)]
 class Box
 {
+    public $status;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

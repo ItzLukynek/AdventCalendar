@@ -13,7 +13,7 @@
 
             {% if app.user %}
                 <div class="mb-3 text-center">
-                    Příhlášen jako: <strong>{{ app.user.userIdentifier }}</strong>, <a href="{{ path('app_logout') }}">Logout</a>
+                    Příhlášen jako: <strong>{{ app.user.userIdentifier }}</strong>, <a href="{{ path('app_logout') }}">Odhlásit</a>
                 </div>
             {% endif %}
 
@@ -30,7 +30,7 @@
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
                 <button class="btn btn-lg btn-primary w-100" type="submit">
-                    Sign in
+                    Přihlásit se
                 </button>
             </form>
         </div>
