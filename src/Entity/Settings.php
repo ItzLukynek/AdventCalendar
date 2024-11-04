@@ -31,6 +31,9 @@ class Settings
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title_color = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $showGift = null;
+
 
     public function getId(): ?int
     {
@@ -105,6 +108,18 @@ class Settings
     public function setTitleColor(?string $title_color): static
     {
         $this->title_color = $title_color;
+
+        return $this;
+    }
+
+    public function isShowGift(): ?bool
+    {
+        return $this->showGift;
+    }
+
+    public function setShowGift(?bool $showGift): static
+    {
+        $this->showGift = $showGift;
 
         return $this;
     }

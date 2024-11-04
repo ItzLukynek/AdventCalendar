@@ -38,6 +38,7 @@ class SettingsCrudController extends AbstractCrudController
     {
         yield BooleanField::new('auth')->renderAsSwitch()->setLabel("Ověřit přihlášení");
         yield BooleanField::new('shuffle')->renderAsSwitch()->setLabel("Zamíchat dny");
+        yield BooleanField::new('show_gift')->setLabel("Ukázat dárek")->onlyOnForms();
         yield TextField::new('title')->setLabel("Nadpis");
         yield ImageField::new('bg_image_url')
             ->setLabel('Pozadí stránky')
@@ -46,6 +47,7 @@ class SettingsCrudController extends AbstractCrudController
             ->setRequired(false);
         yield ColorField::new('title_color')
             ->setLabel('Barva nadpisu');
+
     }
 
     public function configureFilters(Filters $filters): Filters

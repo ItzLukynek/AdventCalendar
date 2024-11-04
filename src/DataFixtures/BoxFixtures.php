@@ -11,7 +11,7 @@ class BoxFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         //db setup for advent calendar
-        for ($i = 1; $i <= 31; $i++) {
+        for ($i = 1; $i <= 24; $i++) {
             $box = new Box();
             $box->setDescription("Vánoce, to úžasné období, kdy všichni předstírají, že se mají rádi, a utrácí peníze, které nemají, za dárky, které nikdo nechce. Krása rodinných setkání, kde se každý těší, až bude zase doma sám. Šťastné a veselé, že?");
             $box->setImageUrl("image.jpg");

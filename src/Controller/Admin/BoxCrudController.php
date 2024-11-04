@@ -39,21 +39,26 @@ class BoxCrudController extends AbstractCrudController
             IntegerField::new('Number')->setLabel('Den'),
             TextareaField::new('description')->setLabel('Popisek'),
             ColorField::new('color')
-                ->setLabel('Barva písma'),
+                ->setLabel('Barva písma')
+                ->onlyOnForms(),
             ColorField::new('bg_color')
-                ->setLabel('Barva pozadí'),
+                ->setLabel('Barva pozadí')
+                ->onlyOnForms(),
+
             TextField::new('button_text')->setLabel('Text tlačítka'),
             TextField::new('button_link')->setLabel('Odkaz tlačítka'),
             ImageField::new('image_url')
                 ->setLabel('Obrázek')
                 ->setUploadDir('public\uploads\images')
                 ->setBasePath('uploads/images')
-                ->setRequired(false),
+                ->setRequired(false)
+                ->onlyOnForms(),
             ImageField::new('bg_image_url')
                 ->setLabel('Pozadí')
                 ->setUploadDir('public\uploads\images\boxbg')
                 ->setBasePath('uploads/images/boxbg')
-                ->setRequired(false),
+                ->setRequired(false)
+                ->onlyOnForms(),
         ];
     }
 
