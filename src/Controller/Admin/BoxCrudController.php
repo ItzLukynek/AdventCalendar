@@ -4,7 +4,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Box;
-use App\Entity\User; // Assuming you have a User entity
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -45,7 +45,6 @@ class BoxCrudController extends AbstractCrudController
             ->linkToCrudAction('resetBoxes')
             ->createAsGlobalAction()
             ->setCssClass('btn btn-danger btn-lg p-2')
-            ->setIcon('fa fa-trash')
         ;
         return $actions
             ->disable(Action::NEW)
@@ -60,26 +59,51 @@ class BoxCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IntegerField::new('Number')->setLabel('Den'),
-            TextareaField::new('description')->setLabel('Popis'),
-            ColorField::new('color')->setLabel('Barva písma')->onlyOnForms(),
-            ColorField::new('bg_color')->setLabel('Barva pozadí')->onlyOnForms(),
-            TextField::new('button_text')->setLabel('Text tlačítka'),
-            TextField::new('button_link')->setLabel('Odkaz tlačítka'),
+            IntegerField::new('Number')
+                ->setLabel('Den')
+                ->addCssClass('field-integer'),
+
+            TextareaField::new('description')
+                ->setLabel('Popis')
+                ->addCssClass('field-textarea'),
+
+            ColorField::new('color')
+                ->setLabel('Barva písma')
+                ->onlyOnForms()
+                ->addCssClass('field-color'),
+
+            ColorField::new('bg_color')
+                ->setLabel('Barva pozadí')
+                ->onlyOnForms()
+                ->addCssClass('field-color'),
+
+            TextField::new('button_text')
+                ->setLabel('Text tlačítka')
+                ->addCssClass('field-text'),
+
+            TextField::new('button_link')
+                ->setLabel('Odkaz tlačítka')
+                ->addCssClass('field-link'),
+
             ImageField::new('image_url')
-                ->setLabel('Obrázek')
+                ->setLabel('Obrázek v modálu')
                 ->setUploadDir('public/uploads/images')
                 ->setBasePath('uploads/images')
                 ->setRequired(false)
-                ->onlyOnForms(),
+                ->onlyOnForms()
+                ->addCssClass('field-image'),
+
             ImageField::new('bg_image_url')
                 ->setLabel('Pozadí')
                 ->setUploadDir('public/uploads/images/boxbg')
                 ->setBasePath('uploads/images/boxbg')
                 ->setRequired(false)
-                ->onlyOnForms(),
+                ->onlyOnForms()
+                ->addCssClass('field-image'),
         ];
     }
+
+
 
     public function resetBoxes(): Response
     {

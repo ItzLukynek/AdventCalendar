@@ -5,7 +5,7 @@
 {% block body %}
     <div class="container d-flex align-items-center justify-content-center vh-100">
         <div class="card shadow p-4 rounded" style="width: 400px;">
-            <h1 class="h3 mb-4 text-center">Registrujte se</h1>
+            <h1 class="h3 mb-4 bold text-center">Registrujte se</h1>
 
             {% if form_errors(registrationForm) %}
                 <div class="alert alert-danger">
@@ -14,21 +14,20 @@
             {% endif %}
 
             {{ form_start(registrationForm) }}
-            <div class="mb-3">
+            <div class="mb-4">
                 {{ form_row(registrationForm.email, {
                     label: 'Email',
-                    attr: {'class': 'form-control', 'style': 'background-color: rgba(255, 255, 255, 0.8); color: #333;'}
+                    attr: {'class': 'form-control form-control-lg', 'style': 'background-color: rgba(255, 255, 255, 0.8); color: #333;'}
                 }) }}
             </div>
-            <div class="mb-3">
+            <div class="mb-4">
                 {{ form_row(registrationForm.plainPassword, {
                     label: 'Heslo',
-                    attr: {'class': 'form-control', 'style': 'background-color: rgba(255, 255, 255, 0.8); color: #333; '}
+                    attr: {'class': 'form-control form-control-lg', 'style': 'background-color: rgba(255, 255, 255, 0.8); color: #333; '}
                 }) }}
             </div>
 
-
-            <button type="submit" class="btn btn-primary w-100">Registrovat se</button>
+            <button type="submit" class="btn btn-primary w-100 btn-lg">Registrovat se</button>
             {{ form_end(registrationForm) }}
         </div>
     </div>
@@ -53,12 +52,13 @@
             color: #333;
         }
 
-
-
         @media (max-width: 576px) {
             .container {
                 padding: 20px;
             }
+        }
+        h1{
+            font-weight: bold !important;
         }
     </style>
 {% endblock %}

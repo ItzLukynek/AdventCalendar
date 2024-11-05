@@ -93,7 +93,7 @@
         }
 
         .box h2 {
-            color: white !important;
+            color: white ;
             font-weight: 700!important;
             margin: 0;
             padding: 10px 0;
@@ -181,7 +181,7 @@
                 {% if box.id in activatedBoxIds %}
                     <h2 class="checkmark">✔️</h2>
                 {% else %}
-                    <h2 class="box-{{ box.id }}">{{ box.number }}</h2>
+                    <h2 {% if box.color %}style="color: {{ box.color }}"{% endif%} class="box-{{ box.id }}">{{ box.number }}</h2>
                 {% endif %}
             </div>
         </div>

@@ -24,7 +24,7 @@ Encore
     .addEntry('login', './assets/scripts/login.js')
     .addEntry('box', './assets/scripts/box.js')
     .addStyleEntry('global', './assets/styles/app.css') // Main CSS entry
-
+    .addStyleEntry("admin",'./assets/styles/admin.css')
     // Copy images from assets/images to public/build/images
     .copyFiles({
         from: './assets/images',

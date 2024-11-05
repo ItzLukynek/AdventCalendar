@@ -34,24 +34,52 @@ class SettingsCrudController extends AbstractCrudController
             ->setDefaultSort(['id' => 'ASC'])
             ->setEntityPermission('ROLE_ADMIN');
     }
-
     public function configureFields(string $pageName): iterable
     {
-        yield BooleanField::new('auth')->renderAsSwitch()->setLabel("Ověřit přihlášení");
-        yield BooleanField::new('shuffle')->renderAsSwitch()->setLabel("Zamíchat dny");
-        yield BooleanField::new('show_gift')->setLabel("Ukázat dárek")->onlyOnForms();
-        yield BooleanField::new('allow_previous_days')->setLabel("Povolit zpětné otevření")->onlyOnForms();
-        yield TextField::new('title')->setLabel("Nadpis");
-        yield ImageField::new('bg_image_url')
-            ->setLabel('Pozadí stránky')
-            ->setUploadDir('public/uploads/images/bg')
-            ->setBasePath('uploads/images/bg')
-            ->setRequired(false);
-        yield ColorField::new('title_color')
-            ->setLabel('Barva nadpisu');
-        yield IntegerField::new("title_size")->setLabel("Velikost nadpisu (px)")->onlyOnForms();
+        return [
+            BooleanField::new('auth')
+                ->renderAsSwitch()
+                ->setLabel("Ověřit přihlášení")
+                ->addCssClass('field-boolean'),
 
+            BooleanField::new('shuffle')
+                ->renderAsSwitch()
+                ->setLabel("Zamíchat dny")
+                ->addCssClass('field-boolean'),
+
+            BooleanField::new('show_gift')
+                ->setLabel("Ukázat dárek")
+                ->onlyOnForms()
+                ->addCssClass('field-boolean'),
+
+            BooleanField::new('allow_previous_days')
+                ->setLabel("Povolit zpětné otevření")
+                ->onlyOnForms()
+                ->addCssClass('field-boolean'),
+
+            TextField::new('title')
+                ->setLabel("Nadpis")
+                ->addCssClass('field-text'),
+
+            ImageField::new('bg_image_url')
+                ->setLabel('Pozadí stránky')
+                ->setUploadDir('public/uploads/images/bg')
+                ->setBasePath('uploads/images/bg')
+                ->setRequired(false)
+                ->addCssClass('field-image'),
+
+            ColorField::new('title_color')
+                ->setLabel('Barva nadpisu')
+                ->addCssClass('field-color'),
+
+            IntegerField::new("title_size")
+                ->setLabel("Velikost nadpisu (px)")
+                ->onlyOnForms()
+                ->addCssClass('field-integer'),
+        ];
     }
+
+
 
     public function configureFilters(Filters $filters): Filters
     {
