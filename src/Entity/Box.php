@@ -138,4 +138,14 @@ class Box
 
         return $this;
     }
+    public function resetToDefaults(): void
+    {
+        $this->description = 'Vánoce jsou tady!';
+        $this->color = null;
+        $this->bg_color = null;
+        $this->button_text = 'Text';
+        $this->button_link = 'http://default-link.com';
+        $this->bg_image_url = null;
+        $this->image_url = null;
+    }
 }
