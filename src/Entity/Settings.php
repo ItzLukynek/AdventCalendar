@@ -72,7 +72,7 @@ class Settings
 
     public function getTitle(): ?string
     {
-        return $this->title;
+        return $this->title ?? "Adventní kalendář";
     }
 
     public function setTitle(?string $title): static
@@ -108,7 +108,7 @@ class Settings
 
     public function getTitleColor(): ?string
     {
-        return $this->title_color;
+        return $this->title_color ?? "#ffcc00";
     }
 
     public function setTitleColor(?string $title_color): static
@@ -144,7 +144,7 @@ class Settings
 
     public function getTitleSize(): ?int
     {
-        return $this->title_size;
+        return $this->title_size ?? "50";
     }
 
     public function setTitleSize(?int $title_size): static

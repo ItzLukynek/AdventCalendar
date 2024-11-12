@@ -117,7 +117,7 @@ class Box
 
     public function getBgColor(): ?string
     {
-        return $this->bg_color;
+        return $this->bg_color ?? "#ffcc00";
     }
 
     public function setBgColor(?string $bg_color): static
@@ -129,7 +129,7 @@ class Box
 
     public function getColor(): ?string
     {
-        return $this->color;
+        return $this->color ?? "white";
     }
 
     public function setColor(?string $color): static

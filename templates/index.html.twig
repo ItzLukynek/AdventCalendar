@@ -18,8 +18,6 @@
             font-optical-sizing: auto;
             font-weight: 700;
             font-style: normal;
-            font-variation-settings:
-                    "wdth" 100;
             background-attachment: fixed;
         }
         body::before{
@@ -93,7 +91,6 @@
         }
 
         .box h2 {
-            color: white ;
             font-weight: 700!important;
             margin: 0;
             padding: 10px 0;
@@ -148,7 +145,7 @@
 
 {% block body %}
     <div class="container-fluid d-flex justify-content-center p-5">
-        <h1 {% if settings.titleColor%}style="color: {{ settings.titleColor }}"{% endif%} class="fw-bold">{{settings.title}}</h1>
+        <h1 style="color: {{ settings.titleColor }}" class="fw-bold">{{settings.title}}</h1>
     </div>
 
     <div class="container">
@@ -158,7 +155,7 @@
                 <div class="box {% if box.status == "blocked" %}blocked{% endif %}
                      p-4 d-flex align-items-end justify-content-center bg-light border rounded shadow"
                 style="
-                {% if box.bgColor %}background-color: {{ box.bgColor }} !important;{% endif %}
+                background-color: {{ box.bgColor }} !important;
                 background-image: url(
                 '{% if box.bgImageUrl is not null %}uploads/images/boxbg/{{ box.bgImageUrl }}{% elseif settings.showGift %}{{ asset('build/images/gift.png') }}{% endif %}'
                 );"
@@ -181,7 +178,7 @@
                 {% if box.id in activatedBoxIds %}
                     <h2 class="checkmark">✔️</h2>
                 {% else %}
-                    <h2 {% if box.color %}style="color: {{ box.color }}"{% endif%} class="box-{{ box.id }}">{{ box.number }}</h2>
+                    <h2 style="color: {{ box.color }}" class="box-{{ box.id }}">{{ box.number }}</h2>
                 {% endif %}
             </div>
         </div>

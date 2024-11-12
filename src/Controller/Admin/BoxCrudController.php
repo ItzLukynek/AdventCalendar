@@ -64,7 +64,6 @@ class BoxCrudController extends AbstractCrudController
             ->add(Crud::PAGE_INDEX, $resetUserBoxes);
     }
 
-
     public function resetBox(): Response
     {
         $request = $this->requestStack->getCurrentRequest();
